@@ -11,7 +11,7 @@ namespace CompMath_Lab2
                 throw new ArgumentException("Matrix has different row dimentions");
             }
 
-            _matrix = (double[][])matrix.Clone();
+            _matrix = MatrixHelper.Copy(matrix);
             _height = matrix.Length;
             _width = matrix[0].Length;
         }
@@ -33,7 +33,7 @@ namespace CompMath_Lab2
         }
         public string ToString(bool exponential = false)
         {
-            return MatrixConverter.ToString(_matrix, exponential);
+            return MatrixHelper.ToString(_matrix, exponential);
         }
 
         public static Matrix GetIdentity(int n)
@@ -69,7 +69,15 @@ namespace CompMath_Lab2
                 .ToArray();
             int n = matrix[0].Length;
             double det = 1.0;
-            int iteration = 0;
+
+            void Write(string message)
+            {
+                writer?.WriteLine(message);
+                writer?.WriteLine(MatrixHelper.ToString(matrix));
+                writer?.WriteDivider();
+            }
+
+            Write("Input equation:");
 
             for (int k = 0; k < m; k++)
             {
@@ -99,7 +107,7 @@ namespace CompMath_Lab2
 
                 for (int i = 0; i < m; i++)
                 {
-                    if(i == k)
+                    if (i == k)
                     {
                         continue;
                     }
@@ -110,26 +118,8 @@ namespace CompMath_Lab2
                         matrix[i][j] -= matrix[k][j] * f;
                     }
                 }
-                writer?.WriteLine($"{++iteration} iteration:");
-                writer?.WriteLine(MatrixConverter.ToString(matrix));
-                writer?.WriteDivider();
+                Write($"{k + 1} iteration:");
             }
-            /*
-            for (int k = m - 1; k > 0; k--)
-            {
-                for (int i = 0; i < k; i++)
-                {
-                    double f = matrix[i][k] / matrix[k][k];
-                    for (int j = k; j < n; j++)
-                    {
-                        matrix[i][j] -= matrix[k][j] * f;
-                    }
-                }
-                writer?.WriteLine($"{++iteration}");
-                writer?.WriteLine(ToString(matrix));
-                writer?.WriteDivider();
-            }*/
-
             return (new(matrix.Select(row => row.Skip(m).ToArray()).ToArray()), det);
         }
 
@@ -142,13 +132,14 @@ namespace CompMath_Lab2
                 throw new ArgumentException("Matrixes dimentions are not equal");
             }
 
-            double[][] res = (double[][])left._matrix.Clone();
+            double[][] res = new double[height][];
 
             for (int i = 0; i < height; i++)
             {
+                res[i] = new double[width];
                 for (int j = 0; j < width; j++)
                 {
-                    res[i][j] -= right[i, j];
+                    res[i][j] = left[i, j] - right[i, j];
                 }
             }
 

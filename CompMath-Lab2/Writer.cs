@@ -12,10 +12,12 @@
 
         public void WriteDivider()
         {
-            WriteLine(new string('-', _dividerLength));
+            WriteLine(_divider);
         }
 
         private readonly StreamWriter _fileWriter;
+
         private const int _dividerLength = 79;
+        private static readonly string _divider = new('-', _dividerLength);
     }
 }

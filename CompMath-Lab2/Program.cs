@@ -35,7 +35,7 @@ namespace Program
                     writer.WriteLine(X.ToString());
                     writer.WriteDivider();
 
-                    writer.WriteLine("r = b - A * X:");
+                    writer.WriteLine("r = B - A * X:");
                     Matrix r = B - A * X;
                     writer.WriteLine(r.ToString(true));
                     writer.WriteDivider();

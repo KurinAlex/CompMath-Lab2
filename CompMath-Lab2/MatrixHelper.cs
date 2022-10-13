@@ -2,8 +2,22 @@
 
 namespace CompMath_Lab2
 {
-    public static class MatrixConverter
+    public class MatrixHelper
     {
+        public static double[][] Copy(double[][] source)
+        {
+            int height = source.Length;
+            int width = source[0].Length;
+            double[][] result = new double[height][];
+
+            for(int i = 0; i < height; i++)
+            {
+                result[i] = new double[width];
+                source[i].CopyTo(result[i], 0);
+            }
+            return result;
+        }
+
         public static string ToString(double[][] matrix, bool exponential = false)
         {
             string format = exponential ? _exponentialFormat : _fixedPointFormat;
