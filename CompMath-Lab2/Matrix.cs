@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace CompMath_Lab2
+﻿namespace CompMath_Lab2
 {
     public struct Matrix
     {
@@ -15,25 +13,15 @@ namespace CompMath_Lab2
             _height = matrix.Length;
             _width = matrix[0].Length;
         }
-        public Matrix(string filePath)
-            : this(File.ReadAllLines(filePath)
-                .Select(line =>
-                    line
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(n => double.Parse(n, CultureInfo.InvariantCulture))
-                    .ToArray()
-                ).ToArray())
-        { }
+        public Matrix(string filePath) : this(MatrixHelper.ReadFromFile(filePath))
+        {
+        }
 
         public double this[int i, int j] => _matrix[i][j];
 
         public Matrix GetInverse()
         {
             return Solve(this, GetIdentity(_height)).X;
-        }
-        public string ToString(bool exponential = false)
-        {
-            return MatrixHelper.ToString(_matrix, exponential);
         }
 
         public static Matrix GetIdentity(int n)
@@ -176,5 +164,13 @@ namespace CompMath_Lab2
         private readonly double[][] _matrix;
         private readonly int _height;
         private readonly int _width;
+
+        public static class MatrixConverter
+        {
+            public static string ToString(Matrix matrix, bool exponential = false)
+            {
+                return MatrixHelper.ToString(matrix._matrix, exponential);
+            }
+        }
     }
 }
