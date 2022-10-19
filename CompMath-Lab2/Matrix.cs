@@ -71,7 +71,7 @@
             {
                 int kMax = matrix
                     .Skip(k)
-                    .Select((row, i) => (row[0], i))
+                    .Select((row, i) => (row[k], i))
                     .MaxBy(t => Math.Abs(t.Item1))
                     .Item2 + k;
 
