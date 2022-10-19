@@ -2,7 +2,7 @@
 
 namespace CompMath_Lab2
 {
-    public class MatrixHelper
+    public static class ArrayHelper
     {
         public static double[][] Copy(double[][] source)
         {

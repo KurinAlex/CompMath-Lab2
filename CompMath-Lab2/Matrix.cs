@@ -2,18 +2,18 @@
 {
     public struct Matrix
     {
-        public Matrix(double[][] matrix, bool checkDimentions = true)
+        public Matrix(double[][] matrix)
         {
-            if (checkDimentions && matrix.Any(row => row.Length != matrix[0].Length))
+            if (matrix.Any(row => row.Length != matrix[0].Length))
             {
                 throw new ArgumentException("Matrix has different row dimentions");
             }
 
-            _matrix = MatrixHelper.Copy(matrix);
+            _matrix = ArrayHelper.Copy(matrix);
             _height = matrix.Length;
             _width = matrix[0].Length;
         }
-        public Matrix(string filePath) : this(MatrixHelper.ReadFromFile(filePath))
+        public Matrix(string filePath) : this(ArrayHelper.ReadFromFile(filePath))
         {
         }
 
@@ -22,6 +22,14 @@
         public Matrix GetInverse()
         {
             return Solve(this, GetIdentity(_height)).X;
+        }
+        public override string ToString()
+        {
+            return ArrayHelper.ToString(_matrix);
+        }
+        public string ToString(bool exponential)
+        {
+            return ArrayHelper.ToString(_matrix, exponential);
         }
 
         public static Matrix GetIdentity(int n)
@@ -34,8 +42,7 @@
                     .Concat(Enumerable.Repeat(0, n - k - 1))
                     .Select(i => (double)i)
                     .ToArray()
-                ).ToArray(),
-                false);
+                ).ToArray());
         }
         public static (Matrix X, double det) Solve(Matrix A, Matrix B, Writer? writer = null)
         {
@@ -61,7 +68,7 @@
             void Write(string message)
             {
                 writer?.WriteLine(message);
-                writer?.WriteLine(MatrixHelper.ToString(matrix));
+                writer?.WriteLine(ArrayHelper.ToString(matrix));
                 writer?.WriteDivider();
             }
 
@@ -131,7 +138,7 @@
                 }
             }
 
-            return new Matrix(res, false);
+            return new Matrix(res);
         }
         public static Matrix operator *(Matrix left, Matrix right)
         {
@@ -158,19 +165,11 @@
                 }
             }
 
-            return new Matrix(res, false);
+            return new Matrix(res);
         }
 
         private readonly double[][] _matrix;
         private readonly int _height;
         private readonly int _width;
-
-        public static class MatrixConverter
-        {
-            public static string ToString(Matrix matrix, bool exponential = false)
-            {
-                return MatrixHelper.ToString(matrix._matrix, exponential);
-            }
-        }
     }
 }

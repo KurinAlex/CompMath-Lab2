@@ -23,12 +23,12 @@ namespace Program
                 {
                     writer.WriteLine("A:");
                     Matrix A = new(matrixAFilePath);
-                    writer.WriteLine(Matrix.MatrixConverter.ToString(A));
+                    writer.WriteLine(A.ToString());
                     writer.WriteDivider();
 
                     writer.WriteLine("B:");
                     Matrix B = new(matrixBFilePath);
-                    writer.WriteLine(Matrix.MatrixConverter.ToString(B));
+                    writer.WriteLine(B.ToString());
                     writer.WriteDivider();
 
                     writer.WriteLine("A * X = B");
@@ -37,17 +37,17 @@ namespace Program
                     (Matrix X, double det) = Matrix.Solve(A, B, writer);
 
                     writer.WriteLine("X:");
-                    writer.WriteLine(Matrix.MatrixConverter.ToString(X));
+                    writer.WriteLine(X.ToString());
                     writer.WriteDivider();
 
                     writer.WriteLine("r = B - A * X:");
                     Matrix r = B - A * X;
-                    writer.WriteLine(Matrix.MatrixConverter.ToString(r, true));
+                    writer.WriteLine(r.ToString(true));
                     writer.WriteDivider();
 
                     writer.WriteLine("A^-1:");
                     Matrix A1 = A.GetInverse();
-                    writer.WriteLine(Matrix.MatrixConverter.ToString(A1));
+                    writer.WriteLine(A1.ToString());
                     writer.WriteDivider();
 
                     writer.WriteLine($"det A = {det}");
@@ -55,7 +55,7 @@ namespace Program
 
                     writer.WriteLine($"A * A^-1:");
                     Matrix E = A * A1;
-                    writer.WriteLine(Matrix.MatrixConverter.ToString(E, true));
+                    writer.WriteLine(E.ToString(true));
                     writer.WriteDivider();
                 }
                 catch (Exception ex)
